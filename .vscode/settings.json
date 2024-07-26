@@ -1,6 +1,9 @@
 {
     "conventionalCommits.scopes": [
         "inicio",
-        "agregado"
-    ]
+        "agregado",
+        "finalizado"
+    ],
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

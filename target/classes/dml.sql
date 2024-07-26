@@ -187,15 +187,15 @@ CREATE PROCEDURE create_person(
 )
 this_proc:BEGIN
 	DECLARE cityId INT;
-    DECLARE cityExists INT;
     DECLARE genderExists INT;
     
     -- verify if the city exists
-    SELECT c.id, COUNT(*) INTO cityId, cityExists
+    SELECT c.id INTO cityId
     FROM city c
-    WHERE c.name = cityName;
+    WHERE c.name = cityName
+    GROUP BY c.id;
     
-	IF (cityExists = 0) THEN
+	IF (cityId IS NULL) THEN
 		SET response = CONCAT("Ups!, parece que ",cityName," no está en la lista de ciudades. Por favor intente nuevamente.");
         LEAVE this_proc;
 	END IF;
@@ -324,7 +324,6 @@ CREATE PROCEDURE update_person(
 )
 this_proc:BEGIN
 	DECLARE personExists INT;
-	DECLARE cityExists INT;
     DECLARE cityid INT;
     DECLARE genderExists INT;
     
@@ -339,11 +338,11 @@ this_proc:BEGIN
 	END IF;
     
     -- verify if the city exists
-	SELECT c.id, COUNT(*) INTO cityId, cityExists
+	SELECT c.id INTO cityId
     FROM city c
     WHERE c.name = newCity;
     
-    IF (cityExists = 0) THEN
+    IF (cityId IS NULL) THEN
 		SET response = CONCAT("Ups! parece que ",newCity," no está en la lista de ciudades. Por favor intenta nuevamente.");
         LEAVE this_proc;
 	END IF;
